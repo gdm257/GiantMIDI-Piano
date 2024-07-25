@@ -22,7 +22,8 @@ Install PyTorch (>=1.4) following https://pytorch.org/.
 The above links also include a curated subset. The curated subset constrains the YouTube titles should contain composers surnames.
 
 ```
-pip install -r requirements.txt
+pip install pdm
+pdm install
 ```
 
 ### Download audio recordings
@@ -34,11 +35,11 @@ mkdir -p $WORKSPACE
 cp "resources/full_music_pieces_youtube_similarity_pianosoloprob.csv" $WORKSPACE/"full_music_pieces_youtube_similarity_pianosoloprob.csv"
 
 # Download all mp3s. Users could split the downloading into parts to speed up the downloading. E.g.,
-python3 dataset.py download_youtube_piano_solo --workspace=$WORKSPACE --begin_index=0 --end_index=30000
-python3 dataset.py download_youtube_piano_solo --workspace=$WORKSPACE --begin_index=30000 --end_index=60000
-python3 dataset.py download_youtube_piano_solo --workspace=$WORKSPACE --begin_index=60000 --end_index=90000
-python3 dataset.py download_youtube_piano_solo --workspace=$WORKSPACE --begin_index=90000 --end_index=120000
-python3 dataset.py download_youtube_piano_solo --workspace=$WORKSPACE --begin_index=12000 --end_index=150000
+pdm run giantmidi-piano download download_youtube_piano_solo --workspace=$WORKSPACE --begin_index=0 --end_index=30000
+pdm run giantmidi-piano download download_youtube_piano_solo --workspace=$WORKSPACE --begin_index=30000 --end_index=60000
+pdm run giantmidi-piano download download_youtube_piano_solo --workspace=$WORKSPACE --begin_index=60000 --end_index=90000
+pdm run giantmidi-piano download download_youtube_piano_solo --workspace=$WORKSPACE --begin_index=90000 --end_index=120000
+pdm run giantmidi-piano download download_youtube_piano_solo --workspace=$WORKSPACE --begin_index=12000 --end_index=150000
 ```
 
 The downloaded mp3 files look like:
@@ -54,11 +55,11 @@ mp3s_piano_solo (10,855 files)
 
 ```
 # Transcribe all mp3s to midi files. Users could split the transcription into parts to speed up the transcription. E.g.,
-python3 audios_to_midis.py transcribe_piano --workspace=$WORKSPACE --mp3s_dir=$WORKSPACE"/mp3s_piano_solo" --midis_dir=$WORKSPACE"/midis" --begin_ind=0 --end_index=30000
-python3 audios_to_midis.py transcribe_piano --workspace=$WORKSPACE --mp3s_dir=$WORKSPACE"/mp3s_piano_solo" --midis_dir=$WORKSPACE"/midis" --begin_ind=30000 --end_index=60000
-python3 audios_to_midis.py transcribe_piano --workspace=$WORKSPACE --mp3s_dir=$WORKSPACE"/mp3s_piano_solo" --midis_dir=$WORKSPACE"/midis" --begin_ind=60000 --end_index=90000
-python3 audios_to_midis.py transcribe_piano --workspace=$WORKSPACE --mp3s_dir=$WORKSPACE"/mp3s_piano_solo" --midis_dir=$WORKSPACE"/midis" --begin_ind=90000 --end_index=120000
-python3 audios_to_midis.py transcribe_piano --workspace=$WORKSPACE --mp3s_dir=$WORKSPACE"/mp3s_piano_solo" --midis_dir=$WORKSPACE"/midis" --begin_ind=120000 --end_index=150000
+pdm run giantmidi-piano convert transcribe_piano --workspace=$WORKSPACE --mp3s_dir=$WORKSPACE"/mp3s_piano_solo" --midis_dir=$WORKSPACE"/midis" --begin_ind=0 --end_index=30000
+pdm run giantmidi-piano convert transcribe_piano --workspace=$WORKSPACE --mp3s_dir=$WORKSPACE"/mp3s_piano_solo" --midis_dir=$WORKSPACE"/midis" --begin_ind=30000 --end_index=60000
+pdm run giantmidi-piano convert transcribe_piano --workspace=$WORKSPACE --mp3s_dir=$WORKSPACE"/mp3s_piano_solo" --midis_dir=$WORKSPACE"/midis" --begin_ind=60000 --end_index=90000
+pdm run giantmidi-piano convert transcribe_piano --workspace=$WORKSPACE --mp3s_dir=$WORKSPACE"/mp3s_piano_solo" --midis_dir=$WORKSPACE"/midis" --begin_ind=90000 --end_index=120000
+pdm run giantmidi-piano convert transcribe_piano --workspace=$WORKSPACE --mp3s_dir=$WORKSPACE"/mp3s_piano_solo" --midis_dir=$WORKSPACE"/midis" --begin_ind=120000 --end_index=150000
 ```
 
 The transcribed MIDI files look like:
@@ -79,8 +80,10 @@ Details of scripts can be viewed at [scripts](scripts)
 All statistics and figures in [1] can be reproduced by:
 
 ```bash
-./scripts/3_statistics.sh
+pdm run giantmidi-piano stats --help
 ```
+
+> Please refer to `scripts/3_statistics.sh`
 
 ## FAQ
 If users met "Too many requests! Sleep for 3600 s" when downloading, it means that YouTube has limited the number of videos for downloading. Users could either 1) Wait until YouTube unblock your IP (1 days or a few weeks), or 2) try to use another machine with a different IP for downloading.
