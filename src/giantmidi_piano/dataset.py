@@ -63,7 +63,9 @@ def download_imslp_htmls(
 
         elif len(surname_firstname) == 2:
             [surname, firstname] = surname_firstname
-            composer_link = f'https://imslp.org/wiki/Category:{space_to_underscore(surname)}%2C_{space_to_underscore(firstname)}'
+            composer_link = (
+                f'https://imslp.org/wiki/Category:{space_to_underscore(surname)}%2C_{space_to_underscore(firstname)}'
+            )
             html_path = os.path.join(htmls_dir, f'{surname}, {firstname}.html')
 
         os.system(f'wget --quiet -O "{html_path}" "{composer_link}"')
@@ -163,7 +165,7 @@ def get_composer_info_from_wikipedia(wikipedia_path):
         bgn = bgn.end()
         text = text[bgn + 1 :]
         fin = re.search(r'\]', text).start()
-        text = text[:fin - 1]
+        text = text[: fin - 1]
         text = text.split('","')
         sentence = ' '.join(text)
         words = nltk.word_tokenize(sentence)
@@ -215,7 +217,7 @@ def get_music_names_from_imslp(ismlp_path):
             bgn = re.search('title=', link).end()
             link = link[bgn + 1 :]
             fin = re.search('>', link).start()
-            music_name = link[:fin - 1]
+            music_name = link[: fin - 1]
             music_names.append(music_name)
 
     for _link in links:
@@ -238,7 +240,7 @@ def get_music_names_from_imslp(ismlp_path):
 
 def remove_suffix(music_name, firstname, surname):
     loct = re.search(rf' \({surname}, {firstname}\)', music_name)
-    music_name = music_name[:loct.start()] if loct else music_name
+    music_name = music_name[: loct.start()] if loct else music_name
     return music_name
 
 
@@ -322,7 +324,9 @@ def search_youtube(
         print(n, meta_dict['surname'][n])
         search_str = f"{meta_dict['firstname'][n]} {meta_dict['surname'][n]}, {meta_dict['music'][n]}"
 
-        youtube_simulate_str = f'youtube-dl --get-id --get-title ytsearch$1:"{search_str}" 1>"{stdout_path}" 2>"{error_path}"'
+        youtube_simulate_str = (
+            f'youtube-dl --get-id --get-title ytsearch$1:"{search_str}" 1>"{stdout_path}" 2>"{error_path}"'
+        )
 
         os.system(youtube_simulate_str)
 
@@ -378,9 +382,7 @@ def calculate_similarity(
     tokenizer = RegexpTokenizer('[A-Za-z0-9ÇéâêîôûàèùäëïöüÄß]+')
 
     for n in range(len(meta_dict['surname'])):
-        target_str_without_firstname = (
-            f"{meta_dict['surname'][n]}, {meta_dict['music'][n]}"
-        )
+        target_str_without_firstname = f"{meta_dict['surname'][n]}, {meta_dict['music'][n]}"
 
         searched_str = meta_dict['youtube_title'][n]
 
@@ -404,12 +406,7 @@ def calculate_similarity(
     print(f'Write out to {similarity_csv_path}')
 
 
-def download_youtube(
-    workspace: str,
-    begin_index: int = 0,
-    end_index: int = 0,
-    mini_data: bool = False
-):
+def download_youtube(workspace: str, begin_index: int = 0, end_index: int = 0, mini_data: bool = False):
     """Download IMSLP music pieces from YouTube. 59,969 files are downloaded in Jan. 2020."""
     # Arguments & parameters
     prefix = 'minidata_' if mini_data else ''
@@ -486,9 +483,7 @@ def download_youtube_piano_solo(
     prefix = 'minidata_' if mini_data else ''
 
     # Paths
-    similarity_csv_path = os.path.join(
-        workspace, f'{prefix}full_music_pieces_youtube_similarity_pianosoloprob.csv'
-    )
+    similarity_csv_path = os.path.join(workspace, f'{prefix}full_music_pieces_youtube_similarity_pianosoloprob.csv')
 
     mp3s_dir = os.path.join(workspace, 'mp3s_piano_solo')
     os.makedirs(mp3s_dir, exist_ok=True)

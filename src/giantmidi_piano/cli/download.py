@@ -32,29 +32,20 @@ def create_meta_csv(
 
 
 @app.command()
-def search_youtube(
-    workspace: str = _workspace_option,
-    mini_data: bool = False
-):
+def search_youtube(workspace: str = _workspace_option, mini_data: bool = False):
     """Search YouTube."""
     dataset.search_youtube(workspace, mini_data)
 
 
 @app.command()
-def calculate_similarity(
-    workspace: str = _workspace_option,
-    mini_data: bool = False
-):
+def calculate_similarity(workspace: str = _workspace_option, mini_data: bool = False):
     """Calculate similarity."""
     dataset.calculate_similarity(workspace, mini_data)
 
 
 @app.command()
 def download_youtube(
-    workspace: str = _workspace_option,
-    begin_index: int = 0,
-    end_index: int = 0,
-    mini_data: bool = False
+    workspace: str = _workspace_option, begin_index: int = 0, end_index: int = 0, mini_data: bool = False
 ):
     """Download YouTube."""
     dataset.download_youtube(workspace, begin_index, end_index, mini_data)
@@ -62,10 +53,7 @@ def download_youtube(
 
 @app.command()
 def download_youtube_piano_solo(
-    workspace: str = _workspace_option,
-    begin_index: int = 0,
-    end_index: int = 0,
-    mini_data: bool = False
+    workspace: str = _workspace_option, begin_index: int = 0, end_index: int = 0, mini_data: bool = False
 ):
     """Download YouTube piano solo."""
     dataset.download_youtube_piano_solo(workspace, begin_index, end_index, mini_data)
